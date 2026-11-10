@@ -1,0 +1,44 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
+
+dependencies {
+  api "com.badlogicgames.ashley:ashley:$ashleyVersion"
+  api "com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"
+  api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
+  api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+  api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+  api "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
+  api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+  api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  api "com.github.tommyettinger:anim8-gdx:$anim8Version"
+  api "de.golfgl.gdxcontrollerutils:gdx-controllers-advanced:$controllerUtilsVersion"
+  api "org.apache.groovy:groovy-all:$groovyVersion"
+
+  if(enableGraalNative == 'true') {
+    implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
+  }
+
+  // JUnit dependency for testing
+  testImplementation "org.junit.jupiter:junit-jupiter:5.10.0"
+}
+
+// configure source sets for Gradle
+sourceSets {
+  main {
+    java.srcDirs = ['src/main/java']
+  }
+  test {
+    java.srcDirs = ['src/test/java']
+  }
+}
+
+// ensure Gradle uses JUnit Platform for running tests
+tasks.test {
+  useJUnitPlatform()
+}
+
+// extra task to clean and run all tests in one go
+tasks.register('cleanTestBuild') {
+  dependsOn 'clean', 'build', 'test'
+}
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
